@@ -1,70 +1,114 @@
-Classification and Captioning of Aircraft Damage Using Pretrained Models
-Project Overview
+Aircraft Damage Classification and Captioning
+Overview
 
-This project focuses on detecting and classifying aircraft surface damage using deep learning and transfer learning techniques. The system performs binary classification (crack vs dent) and optionally generates descriptive captions for detected damage using a pretrained image captioning model.
+This project implements a deep learning pipeline for automated aircraft damage inspection. It performs binary image classification (crack vs dent) using transfer learning with a pretrained VGG16 model.
 
-The goal is to demonstrate practical application of pretrained convolutional neural networks and transformer-based vision-language models in a real-world inspection scenario.
+An optional image captioning module integrates a transformer-based BLIP model to generate descriptive summaries of detected damage, demonstrating multimodal AI integration in a real-world computer vision application.
+
+Problem Statement
+
+Manual aircraft damage inspection can be time-consuming and subjective. This project explores how pretrained deep learning models can assist in:
+
+Classifying types of structural surface damage
+
+Automating visual inspection workflows
+
+Generating descriptive summaries of damage regions
 
 Model Architecture
-Damage Classification Model
+1. Classification Model
 
-Base model:
+Base Model
 
 VGG16 (Keras)
 
-weights = imagenet
+weights = "imagenet"
 
 include_top = False
 
 input_shape = (224, 224, 3)
 
-The VGG16 base is used as a frozen feature extractor.
+The pretrained VGG16 network is used as a frozen feature extractor.
 
-Custom classification head:
+Custom Classification Head
 
 Flatten
 
-Dense(512, relu)
+Dense(512, activation = relu)
 
 Dropout(0.3)
 
-Dense(512, relu)
+Dense(512, activation = relu)
 
 Dropout(0.3)
 
-Dense(1, sigmoid)
+Dense(1, activation = sigmoid)
 
-All base layers are frozen (no fine-tuning). Only the custom dense layers are trained.
+All VGG16 base layers are frozen. Only the custom dense layers are trained.
+
+2. Captioning Model (Optional Component)
+
+Model: Salesforce/blip-image-captioning-base
+
+Framework: Hugging Face Transformers
+
+Components: BlipProcessor, BlipForConditionalGeneration
+
+The captioning module uses a transformer-based vision-language model to generate descriptive summaries of aircraft damage images.
 
 Training Configuration
 
-Loss function: binary_crossentropy
+Loss Function: binary_crossentropy
 
 Optimizer: Adam (learning_rate = 0.0001)
 
 Epochs: 15
 
-Batch size: 32
+Batch Size: 32
 
-Input size: 224 × 224 × 3
+Input Size: 224 × 224 × 3
 
-Data preprocessing:
+Data Preprocessing
 
 ImageDataGenerator(rescale = 1./255)
 
-flow_from_directory with class_mode = binary
+flow_from_directory with class_mode = "binary"
 
-Train: shuffle = True
+Train shuffle = True
 
-Validation/Test: shuffle = False
+Validation/Test shuffle = False
 
-Reproducibility:
+Reproducibility
 
 random.seed(42)
 
-numpy seed = 42
+numpy random seed = 42
 
-tensorflow seed = 42
+tensorflow random seed = 42
+
+Dataset Structure
+
+aircraft_damage_dataset_v1/
+
+train/
+
+crack/
+
+dent/
+
+valid/
+
+crack/
+
+dent/
+
+test/
+
+crack/
+
+dent/
+
+The dataset is organized for supervised binary classification.
 
 Evaluation
 
@@ -78,23 +122,7 @@ Test Loss
 
 Test Accuracy
 
-To extend evaluation, precision, recall, and F1-score can be computed using sklearn.metrics by collecting predictions via model.predict().
-
-Captioning Model (Optional Component)
-
-This project also integrates image captioning using:
-
-Salesforce/blip-image-captioning-base
-
-Hugging Face Transformers
-
-BlipProcessor
-
-BlipForConditionalGeneration
-
-A custom layer leverages tf.py_function to generate captions for aircraft damage images.
-
-This demonstrates multimodal AI integration combining CNN-based classification with transformer-based caption generation.
+Precision, Recall, and F1-score can be computed using sklearn.metrics by generating predictions via model.predict().
 
 Technologies Used
 
@@ -111,3 +139,28 @@ Hugging Face Transformers
 BLIP
 
 NumPy
+
+Scikit-learn
+
+How to Run
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+Prepare dataset in the specified directory structure.
+
+Run the classification script:
+
+python Classification_and_Captioning_Aircraft_Damage_Using_Pretrained_Models.py
+Key Concepts Demonstrated
+
+Transfer learning with pretrained CNN models
+
+Feature extraction using frozen convolutional bases
+
+Binary image classification
+
+Multimodal AI integration (Vision + Language)
+
+Reproducible training setup
