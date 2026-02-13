@@ -1,11 +1,11 @@
-Aircraft Damage Classification and Captioning
-Overview
+**Aircraft Damage Classification and Captioning**
+**Overview**
 
 This project implements a deep learning pipeline for automated aircraft damage inspection. It performs binary image classification (crack vs dent) using transfer learning with a pretrained VGG16 model.
 
 An optional image captioning module integrates a transformer-based BLIP model to generate descriptive summaries of detected damage, demonstrating multimodal AI integration in a real-world computer vision application.
 
-Problem Statement
+**Problem Statement**
 
 Manual aircraft damage inspection can be time-consuming and subjective. This project explores how pretrained deep learning models can assist in:
 
@@ -15,10 +15,10 @@ Automating visual inspection workflows
 
 Generating descriptive summaries of damage regions
 
-Model Architecture
+**Model Architecture
 1. Classification Model
 
-Base Model
+Base Model**
 
 VGG16 (Keras)
 
@@ -46,7 +46,7 @@ Dense(1, activation = sigmoid)
 
 All VGG16 base layers are frozen. Only the custom dense layers are trained.
 
-2. Captioning Model (Optional Component)
+**2. Captioning Model (Optional Component)**
 
 Model: Salesforce/blip-image-captioning-base
 
@@ -56,7 +56,7 @@ Components: BlipProcessor, BlipForConditionalGeneration
 
 The captioning module uses a transformer-based vision-language model to generate descriptive summaries of aircraft damage images.
 
-Training Configuration
+**Training Configuration**
 
 Loss Function: binary_crossentropy
 
@@ -68,7 +68,7 @@ Batch Size: 32
 
 Input Size: 224 × 224 × 3
 
-Data Preprocessing
+**Data Preprocessing**
 
 ImageDataGenerator(rescale = 1./255)
 
@@ -78,39 +78,15 @@ Train shuffle = True
 
 Validation/Test shuffle = False
 
-Reproducibility
-
+**Reproducibility**
 random.seed(42)
 
 numpy random seed = 42
 
 tensorflow random seed = 42
 
-Dataset Structure
 
-aircraft_damage_dataset_v1/
-
-train/
-
-crack/
-
-dent/
-
-valid/
-
-crack/
-
-dent/
-
-test/
-
-crack/
-
-dent/
-
-The dataset is organized for supervised binary classification.
-
-Evaluation
+**Evaluation**
 
 The model is evaluated using:
 
@@ -124,7 +100,7 @@ Test Accuracy
 
 Precision, Recall, and F1-score can be computed using sklearn.metrics by generating predictions via model.predict().
 
-Technologies Used
+**Technologies Used**
 
 Python
 
@@ -142,7 +118,7 @@ NumPy
 
 Scikit-learn
 
-How to Run
+**How to Run**
 
 Install dependencies:
 
@@ -164,3 +140,4 @@ Binary image classification
 Multimodal AI integration (Vision + Language)
 
 Reproducible training setup
+
